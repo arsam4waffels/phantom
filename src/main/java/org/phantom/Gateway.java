@@ -1,16 +1,15 @@
 package org.phantom;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Gateway {
-    private final int PORT = 8080;
-    private final ServerSocket serverSocket = new ServerSocket(PORT);
+    public static void main(String[] args) throws IOException {
 
-    public Gateway() throws IOException {
+        final int PORT = 8080;
+        final ServerSocket serverSocket = new ServerSocket(PORT);
+
         while (true) {
             Socket socket = serverSocket.accept();
             Thread thread = new Thread(new ClientHandler(socket));
