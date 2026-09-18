@@ -23,12 +23,25 @@ public class ClientHandler implements Runnable {
                     new InputStreamReader(socket.getInputStream())
             );
 
-            String requestLine = reader.readLine();
-            System.out.println("[+] Request "
-                    + requestLine
-            );
+            HttpRequest request = HttpRequest.parse(reader);
 
-            socket.close();
+            if (request == null) {
+                System.out.println("[-] Empty request from: "
+                        + clientIP
+                );
+                socket.close();
+                return;
+            }
+
+            System.out.println("[+] "
+                    + request
+            );
+            System.out.println("[+] User-Agent: "
+                    + request.getHeader("user-agent")
+            );
+            System.out.println("[+] Path: "
+                    + request.getPath()
+            );
         }
         catch (IOException e) {
             System.out.println("[-] Error handling client: "
@@ -40,7 +53,7 @@ public class ClientHandler implements Runnable {
                 socket.close();
             }
             catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println(e.getMessage());
             }
         }
     }
