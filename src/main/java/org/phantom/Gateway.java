@@ -13,18 +13,7 @@ public class Gateway {
     public Gateway() throws IOException {
         while (true) {
             Socket socket = serverSocket.accept();
-            System.out.println("New connection from "
-                    + socket.getInetAddress()
-            );
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream())
-            );
-            String line;
-            while ((line = reader.readLine()) != null
-                    && !line.isEmpty()) {
-                System.out.println(line);
-            }
-            socket.close();
+            Thread thread = new Thread(new ClientHandler(socket));
         }
     }
 }
