@@ -10,11 +10,27 @@ public class Config {
     private static final Properties props = new Properties();
 
     static {
-        try (InputStream input = new FileInputStream("config.properties")) {
-            props.load(input);
-            System.out.println("[*] Config loaded.");
-        } catch (IOException e) {
-            System.out.println("[!] config.properties not found, using defaults.");
+        InputStream input = Config.class
+                .getClassLoader()
+                .getResourceAsStream("config.properties");
+
+        if (input != null) {
+            try {
+                props.load(input);
+                System.out.println("[*] Config loaded.");
+            } catch (IOException e) {
+                System.out.println("[!] Could not load config.");
+            }
+        }
+        else {
+            try (InputStream fileInput =
+                         new FileInputStream("config.properties")) {
+                props.load(fileInput);
+                System.out.println("[*] Config loaded.");
+            }
+            catch (IOException e) {
+                System.out.println("[!] config.properties not found, using defaults.");
+            }
         }
     }
 

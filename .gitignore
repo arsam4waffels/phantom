@@ -19,3 +19,5 @@ Thumbs.db
 config.properties
 phantom.log
 danger_ips.txt
+test-phantom.log
+test-danger-ips.txt
