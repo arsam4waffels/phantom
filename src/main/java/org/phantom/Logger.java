@@ -8,9 +8,9 @@ import java.time.format.DateTimeFormatter;
 
 public class Logger {
     private static final String LOG_FILE_PATH = "phantom.log";
-    public void logFile(String clientIP,
-                        String path,
-                        String userAgent) {
+    public static void logFile(String clientIP,
+                               String path,
+                               String userAgent) {
 
         String timestamp = LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern(

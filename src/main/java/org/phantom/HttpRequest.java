@@ -12,15 +12,18 @@ public class HttpRequest {
     private final String path;
     private final String version;
     private final Map<String, String> headers;
+    private final String clientIP;
 
     public HttpRequest(String method,
                        String path,
                        String version,
-                       Map<String, String> headers) {
+                       Map<String, String> headers,
+                       String clientIP) {
         this.method     = method;
         this.path       = path;
         this.version    = version;
         this.headers    = headers;
+        this.clientIP   = clientIP;
     }
 
     public String getMethod() {
@@ -32,6 +35,9 @@ public class HttpRequest {
     public String getVersion() {
         return version;
     }
+    public String getClientIP() {
+        return clientIP;
+    }
 
     public String getHeader(@NotNull String name) {
         return headers.get(name.toLowerCase());
@@ -41,7 +47,8 @@ public class HttpRequest {
         return method + " " + path + " " + version;
     }
 
-    public static HttpRequest parse(BufferedReader reader)
+    public static HttpRequest parse(BufferedReader reader,
+                                    String clientIP)
             throws IOException {
 
         String requestLine = reader.readLine();
@@ -68,6 +75,6 @@ public class HttpRequest {
             }
         }
 
-        return new HttpRequest(method, path, version, headers);
+        return new HttpRequest(method, path, version, headers, clientIP);
     }
 }

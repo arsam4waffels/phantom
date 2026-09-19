@@ -9,6 +9,7 @@ import java.net.Socket;
 public class ClientHandler implements Runnable {
 
     private final Socket socket;
+    private final Router router = new Router();
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
@@ -24,7 +25,7 @@ public class ClientHandler implements Runnable {
                     new InputStreamReader(socket.getInputStream())
             );
 
-            HttpRequest request = HttpRequest.parse(reader);
+            HttpRequest request = HttpRequest.parse(reader, clientIP);
 
             if (request == null) {
                 System.out.println("[-] Empty request from: "
@@ -33,6 +34,8 @@ public class ClientHandler implements Runnable {
                 socket.close();
                 return;
             }
+
+            HttpResponse httpResponse = router.route(request);
 
             System.out.println("[+] "
                     + request
@@ -47,10 +50,7 @@ public class ClientHandler implements Runnable {
             PrintWriter writer = new PrintWriter(
                     socket.getOutputStream(), true
             );
-            writer.println("HTTP/1.1 200 OK");
-            writer.println("Content-Type: text/plain");
-            writer.println("");
-            writer.println("Welcome to the service.");
+            writer.print(httpResponse.toRawHttp());
             writer.flush();
         }
         catch (IOException e) {
