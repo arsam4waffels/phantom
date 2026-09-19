@@ -12,13 +12,19 @@ public class Gateway {
         while (true) {
 
             try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+                System.out.println("[*] Gateway started on port " + PORT);
 
                 Socket socket = serverSocket.accept();
-                Thread thread = new Thread(new ClientHandler(socket));
+                Thread thread = new Thread(
+                        new ClientHandler(socket)
+                );
+                thread.start();
 
             }
             catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println("[-] Gateway error: "
+                        + e.getMessage()
+                );
             }
         }
     }

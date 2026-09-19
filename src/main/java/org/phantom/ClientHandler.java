@@ -3,6 +3,7 @@ package org.phantom;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
@@ -42,6 +43,15 @@ public class ClientHandler implements Runnable {
             System.out.println("[+] Path: "
                     + request.getPath()
             );
+
+            PrintWriter writer = new PrintWriter(
+                    socket.getOutputStream(), true
+            );
+            writer.println("HTTP/1.1 200 OK");
+            writer.println("Content-Type: text/plain");
+            writer.println("");
+            writer.println("Welcome to the service.");
+            writer.flush();
         }
         catch (IOException e) {
             System.out.println("[-] Error handling client: "
