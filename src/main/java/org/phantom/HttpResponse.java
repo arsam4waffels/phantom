@@ -41,6 +41,10 @@ public class HttpResponse {
                 + body;
     }
 
+    public int getStatusCode() {
+        return statusCode;
+    }
+
     private String getReasonPhrase() {
         return switch (statusCode) {
             case 200 -> "OK";
