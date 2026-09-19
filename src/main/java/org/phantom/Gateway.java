@@ -7,7 +7,7 @@ import java.net.Socket;
 public class Gateway {
     public static void main(String[] args) {
 
-        final int PORT = 8080;
+        final int PORT = Config.getPort();
 
         System.out.println("[*] Gateway started on port " + PORT);
 

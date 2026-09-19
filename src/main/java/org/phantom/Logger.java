@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Logger {
-    private static final String LOG_FILE_PATH = "phantom.log";
+    private static final String LOG_FILE_PATH = Config.getLogFile();
     public static void logFile(String clientIP,
                                String path,
                                String userAgent,

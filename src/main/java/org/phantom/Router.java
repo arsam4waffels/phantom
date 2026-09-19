@@ -3,9 +3,7 @@ package org.phantom;
 import java.util.List;
 
 public class Router {
-    private static final List<String> REAL_PATHS = List.of(
-            "/", "/hello", "/about", "/api/users"
-    );
+    private static final List<String> REAL_PATHS = Config.getRealPaths();
     private static final List<String> SUSPICIOUS_PATHS = List.of(
             "/admin", "/api/internal", "/config", "/env", "/.git"
     );

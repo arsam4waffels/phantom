@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ThreatTracker {
 
-    private static final String DANGER_FILE = "danger_ips.txt";
+    private static final String DANGER_FILE = Config.getDangerFile();
 
     // ConcurrentHashMap -> Thread-safe
     private static final Map<String, Integer> suspiciousCount
@@ -20,7 +20,7 @@ public class ThreatTracker {
     private static final Set<String> dangerousIPs
             = ConcurrentHashMap.newKeySet();
 
-    private static final int DANGER_THRESHOLD = 3;
+    private static final int DANGER_THRESHOLD = Config.getDangerThreshold();
 
     static {
         loadDangerousIPs();
