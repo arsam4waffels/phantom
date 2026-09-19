@@ -15,3 +15,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+config.properties
+phantom.log
+danger_ips.txt
