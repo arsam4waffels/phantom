@@ -43,6 +43,6 @@ public class Router {
                     httpRequest.getHeader("user-agent"),
                     "SUSPICIOUS");
 
-        return HttpResponse.ok("{\"status\": \"ok\", \"data\": []}");
+        return FakeService.respond(httpRequest.getPath());
     }
 }
