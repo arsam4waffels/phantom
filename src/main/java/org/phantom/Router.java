@@ -29,11 +29,19 @@ public class Router {
     }
     private HttpResponse handleFake(HttpRequest httpRequest) {
 
-        Logger.logFile(
-                httpRequest.getClientIP(),
-                httpRequest.getPath(),
-                httpRequest.getHeader("user-agent")
-        );
+        String clientIP = httpRequest.getClientIP();
+        ThreatTracker.record(clientIP);
+
+        if (ThreatTracker.isDangerous(clientIP))
+            Logger.logFile(clientIP,
+                    httpRequest.getPath(),
+                    httpRequest.getHeader("user-agent"),
+                    "DANGER - Scanning detected! Count: "
+                            + ThreatTracker.getCount(clientIP));
+        else
+            Logger.logFile(clientIP, httpRequest.getPath(),
+                    httpRequest.getHeader("user-agent"),
+                    "SUSPICIOUS");
 
         return HttpResponse.ok("{\"status\": \"ok\", \"data\": []}");
     }

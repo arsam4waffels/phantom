@@ -10,7 +10,8 @@ public class Logger {
     private static final String LOG_FILE_PATH = "phantom.log";
     public static void logFile(String clientIP,
                                String path,
-                               String userAgent) {
+                               String userAgent,
+                               String level) {
 
         String timestamp = LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern(
@@ -18,6 +19,7 @@ public class Logger {
                 )
         );
         String entry = "["  + timestamp + "] "
+                +      "["  + level     + "] "
                 + "IP: "    + clientIP  + " | "
                 + "Path: "  + path      + " | "
                 + "Agent: " + userAgent;
