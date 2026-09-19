@@ -28,6 +28,9 @@ public class Router {
         };
     }
     private HttpResponse handleFake(String path) {
+        Logger logger = new Logger();
+        logger.logFile();
 
+        return HttpResponse.ok("{\"status\": \"ok\", \"data\": []}");
     }
 }
