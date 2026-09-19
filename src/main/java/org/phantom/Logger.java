@@ -14,12 +14,12 @@ public class Logger {
 
         String timestamp = LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern(
-                        "yyyy-mm-dd HH:mm:ss"
+                        "yyyy-MM-dd HH:mm:ss"
                 )
         );
-        String entry = "["  + timestamp + "]"
-                + "IP: "    + clientIP  + "|"
-                + "Path: "  + path      + "|"
+        String entry = "["  + timestamp + "] "
+                + "IP: "    + clientIP  + " | "
+                + "Path: "  + path      + " | "
                 + "Agent: " + userAgent;
 
         System.out.println("[ALERT] " + entry);

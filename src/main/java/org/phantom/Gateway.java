@@ -9,10 +9,11 @@ public class Gateway {
 
         final int PORT = 8080;
 
+        System.out.println("[*] Gateway started on port " + PORT);
+
         while (true) {
 
             try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-                System.out.println("[*] Gateway started on port " + PORT);
 
                 Socket socket = serverSocket.accept();
                 Thread thread = new Thread(
