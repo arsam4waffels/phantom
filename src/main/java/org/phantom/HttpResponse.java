@@ -45,11 +45,20 @@ public class HttpResponse {
         return statusCode;
     }
 
+    public static HttpResponse tooManyRequests() {
+        return new HttpResponse(
+                429,
+                "text/plain; charset=UTF-8",
+                "Too Many Requests"
+        );
+    }
+
     private String getReasonPhrase() {
         return switch (statusCode) {
             case 200 -> "OK";
             case 400 -> "Bad Request";
             case 404 -> "Not Found";
+            case 429 -> "Too Many Requests";
             default  -> "Unknown";
         };
     }

@@ -23,6 +23,25 @@ public class ClientHandler implements Runnable {
             System.out.println("[+] New connection from "
                     + clientIP
             );
+
+            if (!RateLimiter.allow(clientIP)) {
+                System.out.println("[!] Rate limit exceeded for: "
+                        + clientIP
+                );
+
+                PrintWriter writer = new PrintWriter(
+                        socket.getOutputStream(), true
+                );
+                writer.print(
+                        HttpResponse
+                                .tooManyRequests()
+                                .toRawHttp()
+                );
+                writer.flush();
+
+                return;
+            }
+
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(socket.getInputStream())
             );
