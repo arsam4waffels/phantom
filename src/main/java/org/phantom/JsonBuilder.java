@@ -3,13 +3,14 @@ package org.phantom;
 public class JsonBuilder {
     private final StringBuilder stringBuilder
             = new StringBuilder();
+    private boolean first = true;
 
     public JsonBuilder() {
         stringBuilder.append("{");
     } // starting point, creates '{' for opening
 
     public JsonBuilder add(String key, String value) {
-        boolean first = true;
+
 
         // If it was the first entry, there is no need for ','
         if (!first) stringBuilder.append(",");
@@ -22,6 +23,7 @@ public class JsonBuilder {
                 .append(escape(value))
                 .append("\"");
 
+        first = false;
         return this;
     }
 
@@ -35,7 +37,7 @@ public class JsonBuilder {
         if (value == null) return "null";
         return value
                 .replace("\\", "\\\\")
-                .replace("\"", "\\")
+                .replace("\"", "\\\"")
                 .replace("\n", "\\n")
                 .replace("\r", "\\r")
                 .replace("\t", "\\t");
