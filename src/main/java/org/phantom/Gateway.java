@@ -7,6 +7,10 @@ import java.net.Socket;
 public class Gateway {
     public static void main(String[] args) {
 
+        // force load with started
+        Config.getPort();
+        ThreatTracker.getCount("");
+
         final int PORT = Config.getPort();
 
         System.out.println("[*] Gateway started on port " + PORT);

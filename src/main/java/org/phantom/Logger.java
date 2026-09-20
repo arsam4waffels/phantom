@@ -11,7 +11,8 @@ public class Logger {
     public static void logFile(String clientIP,
                                String path,
                                String userAgent,
-                               String level) {
+                               String level,
+                               int sessionCount) {
 
         String timestamp = LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern(
@@ -33,6 +34,7 @@ public class Logger {
                 .add("ip", clientIP)
                 .add("path", path)
                 .add("agent", userAgent)
+                .add("session_requests", String.valueOf(sessionCount))
                 .build();
 
         try (
