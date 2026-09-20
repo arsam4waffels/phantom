@@ -1,5 +1,7 @@
 package org.phantom;
 
+import org.phantom.session.SessionManager;
+
 import java.util.List;
 
 public class Router {
@@ -30,16 +32,23 @@ public class Router {
         String clientIP = httpRequest.getClientIP();
         ThreatTracker.record(clientIP);
 
+        int sessionCount = SessionManager.get(clientIP) != null
+                ? SessionManager.get(clientIP).getRequestCount()
+                : 1;
+
         if (ThreatTracker.isDangerous(clientIP))
             Logger.logFile(clientIP,
                     httpRequest.getPath(),
                     httpRequest.getHeader("user-agent"),
                     "DANGER - Scanning detected! Count: "
-                            + ThreatTracker.getCount(clientIP));
+                            + ThreatTracker.getCount(clientIP),
+                    sessionCount
+            );
         else
             Logger.logFile(clientIP, httpRequest.getPath(),
                     httpRequest.getHeader("user-agent"),
-                    "SUSPICIOUS");
+                    "SUSPICIOUS",
+                    sessionCount);
 
         return FakeService.respond(httpRequest.getPath());
     }
