@@ -52,4 +52,8 @@ public class Session {
     public long getSecondsSinceLastSeen() {
         return (System.currentTimeMillis() - lastSeenTime) * 1000;
     }
+
+    public int getRequestCount() {
+        return requestCount;
+    }
 }
