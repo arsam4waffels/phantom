@@ -54,4 +54,12 @@ public class Config {
         String raw = props.getProperty("paths.real", "/,/hello,/about,/api/users");
         return List.of(raw.split(","));
     }
+
+    public static int getMaxRequests() {
+        return Integer.parseInt(props.getProperty("rate.max_requests", "5"));
+    }
+
+    public static long getWindowMs() {
+        return Long.parseLong(props.getProperty("rate.window_ms", "10000"));
+    }
 }

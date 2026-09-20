@@ -16,8 +16,8 @@ public class RateLimiter {
      */
 
     // limits for each window
-    private static final int MAX_REQUESTS = 5;
-    private static final long WINDOW_MS = 10_000;
+    private static final int MAX_REQUESTS = Config.getMaxRequests();
+    private static final long WINDOW_MS = Config.getWindowMs();
 
     private int token;
     private long windowStart;
