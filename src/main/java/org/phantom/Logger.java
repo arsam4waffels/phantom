@@ -30,9 +30,9 @@ public class Logger {
         String json = new JsonBuilder()
                 .add("timestamp", timestamp)
                 .add("level", level)
-                .add("IP", clientIP)
-                .add("Path", path)
-                .add("Agent", userAgent)
+                .add("ip", clientIP)
+                .add("path", path)
+                .add("agent", userAgent)
                 .build();
 
         try (
