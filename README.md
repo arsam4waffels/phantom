@@ -21,16 +21,32 @@ The attacker never knows they're being watched.
 ---
 
 ## Architecture
+```text
+Gateway          → accepts all incoming connections
+ClientHandler    → handles each client in a separate thread
+HttpRequest      → parses raw HTTP requests
+Router           → decides real or fake response
+FakeService      → returns convincing fake responses
+ThreatTracker    → tracks suspicious IPs (persistent across restarts)
+SessionManager   → tracks each IP's full request history
+Session          → stores per-IP activity (paths, count, duration)
+Logger           → logs to console and file in JSON format
+JsonBuilder      → builds JSON without external dependencies
+HttpResponse     → builds HTTP responses
+Config           → loads settings from config.properties
+```
 
-- Gateway → accepts all incoming connections
-- ClientHandler → handles each client in a separate thread
-- HttpRequest → parses raw HTTP requests
-- Router → decides real or fake response
-- FakeService → returns convincing fake responses
-- ThreatTracker → tracks suspicious IPs (persistent across restarts)
-- Logger → logs to console and file
-- HttpResponse → builds HTTP responses
+---
 
+## Session Tracking
+
+Every IP is tracked across requests in a live session:
+- First seen time
+- Last seen time
+- Total request count
+- All visited paths
+
+Session data is stored in memory and included in every log entry.
 
 ---
 
@@ -91,5 +107,4 @@ This project is inspired by real-world cyber deception techniques:
 
 ---
 
-p.s : this is a learning project in Java networking and cybersecurity concepts.
-it't not fully safe... but it's good for practice
+I built this project solely for educational purposes related to security and networking. It certainly lacks the security required to protect sensitive data. I’d be happy if you used Phantom for your systems, but whatever happens is on you, buddy—not me. (lol).
