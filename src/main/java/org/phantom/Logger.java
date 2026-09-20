@@ -34,7 +34,7 @@ public class Logger {
             writer.newLine();
         }
         catch (IOException e) {
-            System.out.println("[-] Logger error: " + e.getMessage());
+            System.err.println("[-] Logger error: " + e.getMessage());
         }
     }
 }
