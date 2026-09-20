@@ -9,7 +9,8 @@ public class Session {
 
     private final String clientIP;
     private final long startTime;
-    private final long lastSeenTime;
+    private long lastSeenTime;
+    private int requestCount;
     private final List<String> validatePaths;
 
     public Session(String clientIP) {
@@ -20,7 +21,14 @@ public class Session {
         this.startTime = System.currentTimeMillis();
         this.lastSeenTime = startTime;
 
+        this.requestCount = 0;
         this.validatePaths = new ArrayList<>();
+    }
+
+    public void record(String path) {
+        this.lastSeenTime = System.currentTimeMillis();
+        this.requestCount++;
+        this.validatePaths.add(path);
     }
 
     public String getClientIP() {
