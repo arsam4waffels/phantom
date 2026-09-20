@@ -1,7 +1,5 @@
 package org.phantom.session;
 
-import org.phantom.Session;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
