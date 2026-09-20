@@ -15,9 +15,10 @@ public class Logger {
 
         String timestamp = LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern(
-                        "yyyy-MM-dd HH:mm:ss"
+                        "yyyy-MM-dd'T'HH:mm:ss"
                 )
-        );
+        ); // timestamp is formated by ISO 8601 standard -> 'T'
+
         String entry = "["  + timestamp + "] "
                 +      "["  + level     + "] "
                 + "IP: "    + clientIP  + " | "
@@ -26,11 +27,19 @@ public class Logger {
 
         System.out.println("[ALERT] " + entry);
 
+        String json = new JsonBuilder()
+                .add("timestamp", timestamp)
+                .add("level", level)
+                .add("IP", clientIP)
+                .add("Path", path)
+                .add("Agent", userAgent)
+                .build();
+
         try (
                 FileWriter fileWriter = new FileWriter(LOG_FILE_PATH, true);
                 BufferedWriter writer = new BufferedWriter(fileWriter)
         ) {
-            writer.write(entry);
+            writer.write(json);
             writer.newLine();
         }
         catch (IOException e) {
