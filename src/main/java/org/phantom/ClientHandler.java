@@ -1,5 +1,7 @@
 package org.phantom;
 
+import org.phantom.session.SessionManager;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,6 +37,8 @@ public class ClientHandler implements Runnable {
                 return;
             }
 
+            SessionManager.record(clientIP, request.getPath());
+
             HttpResponse httpResponse = router.route(request);
 
             System.out.println("[+] "
@@ -45,6 +49,9 @@ public class ClientHandler implements Runnable {
             );
             System.out.println("[+] Path: "
                     + request.getPath()
+            );
+            System.out.println("[+] Session requests: "
+                    + SessionManager.get(clientIP).getRequestCount()
             );
 
             PrintWriter writer = new PrintWriter(
