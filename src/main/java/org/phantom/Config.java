@@ -72,4 +72,10 @@ public class Config {
                 props.getProperty("server.socket_timeout_ms", "5000")
         );
     }
+
+    public static int getMaxConnectionsPerIp() {
+        return Integer.parseInt(
+                props.getProperty("server.max_connections_per_ip", "3")
+        );
+    }
 }
