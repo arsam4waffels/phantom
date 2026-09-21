@@ -66,4 +66,10 @@ public class Config {
     public static int getThreadPoolSize() {
         return Integer.parseInt(props.getProperty("server.thread_pool_size", "50"));
     }
+
+    public static int getSocketTimeoutMs() {
+        return Integer.parseInt(
+                props.getProperty("server.socket_timeout_ms", "5000")
+        );
+    }
 }

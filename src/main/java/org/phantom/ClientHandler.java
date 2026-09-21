@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class ClientHandler implements Runnable {
 
@@ -19,6 +20,9 @@ public class ClientHandler implements Runnable {
 
     @Override public void run() {
         try {
+            // Slowloris prevention
+            socket.setSoTimeout(Config.getSocketTimeoutMs());
+
             String clientIP = socket.getInetAddress().toString();
             System.out.println("[+] New connection from "
                     + clientIP
@@ -78,6 +82,11 @@ public class ClientHandler implements Runnable {
             );
             writer.print(httpResponse.toRawHttp());
             writer.flush();
+        }
+        catch (SocketTimeoutException e) {
+            // Slowloris attempt
+            System.out.println("[!] Connection timeout: "
+                    + socket.getInetAddress());
         }
         catch (IOException e) {
             System.out.println("[-] Error handling client: "
