@@ -1,4 +1,4 @@
-package org.phantom;
+package org.phantom.infra;
 
 import java.io.FileInputStream;
 import java.io.IOException;

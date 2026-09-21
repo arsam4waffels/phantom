@@ -1,6 +1,8 @@
 package org.phantom;
 
 import org.junit.jupiter.api.Test;
+import org.phantom.http.HttpRequest;
+
 import java.io.BufferedReader;
 import java.io.StringReader;
 import static org.junit.jupiter.api.Assertions.*;

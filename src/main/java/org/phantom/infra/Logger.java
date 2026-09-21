@@ -1,4 +1,6 @@
-package org.phantom;
+package org.phantom.infra;
+
+import org.phantom.http.JsonBuilder;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

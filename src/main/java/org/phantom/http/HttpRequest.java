@@ -1,4 +1,4 @@
-package org.phantom;
+package org.phantom.http;
 
 import org.jetbrains.annotations.NotNull;
 

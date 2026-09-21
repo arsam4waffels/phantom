@@ -2,6 +2,8 @@ package org.phantom;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.phantom.security.ThreatTracker;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ThreatTrackerTest {

@@ -1,4 +1,4 @@
-package org.phantom;
+package org.phantom.http;
 
 public class HttpResponse {
     private final int statusCode;
