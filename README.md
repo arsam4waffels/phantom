@@ -1,10 +1,42 @@
 # Phantom 
 
-### Cyber Deception System
-
-A honeypot-based intrusion deception system built in Java.
+**Cyber Deception System.** A honeypot-based intrusion deception system built in Java.
 Phantom lures attackers into a fake environment, logs their every move,
 and tracks dangerous IPs — all while the real service stays hidden.
+
+---
+
+# Project Structure
+
+```text
+org/phantom/
+│
+├── core/
+│   ├── Gateway.java            ← Server entry point — accepts connections and dispatches to thread pool
+│   ├── ClientHandler.java      ← Handles each client connection in a separate thread
+│   └── Router.java             ← Routes requests to real or fake service based on path
+│
+├── http/
+│   ├── HttpRequest.java        ← Parses raw HTTP requests including headers and client IP
+│   ├── HttpResponse.java       ← Builds HTTP responses with status codes and body
+│   └── JsonBuilder.java        ← Dependency-free JSON serializer with character escaping
+│
+├── security/
+│   ├── RateLimiter.java        ← Token bucket algorithm — limits requests per IP per time window
+│   ├── ConnectionLimiter.java  ← Limits concurrent connections per IP to prevent flood attacks
+│   └── ThreatTracker.java      ← Tracks and persists dangerous IPs across server restarts
+│
+├── session/
+│   ├── Session.java            ← Stores per-IP activity — paths visited, request count, timestamps
+│   └── SessionManager.java     ← Manages all active sessions and provides lookup by IP
+│
+├── deception/
+│   └── FakeService.java        ← Returns convincing fake responses per path to mislead attackers
+│
+└── infra/
+    ├── Config.java             ← Loads and exposes all settings from config.properties
+    └── Logger.java             ← Logs suspicious activity to console and file in JSON format
+```
 
 ---
 
@@ -17,24 +49,6 @@ When a client connects to Phantom:
 - **Repeated attackers** → flagged as DANGER and permanently tracked
 
 The attacker never knows they're being watched.
-
----
-
-## Architecture
-```text
-Gateway          → accepts all incoming connections
-ClientHandler    → handles each client in a separate thread
-HttpRequest      → parses raw HTTP requests
-Router           → decides real or fake response
-FakeService      → returns convincing fake responses
-ThreatTracker    → tracks suspicious IPs (persistent across restarts)
-SessionManager   → tracks each IP's full request history
-Session          → stores per-IP activity (paths, count, duration)
-Logger           → logs to console and file in JSON format
-JsonBuilder      → builds JSON without external dependencies
-HttpResponse     → builds HTTP responses
-Config           → loads settings from config.properties
-```
 
 ---
 
