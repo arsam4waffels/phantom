@@ -62,4 +62,8 @@ public class Config {
     public static long getWindowMs() {
         return Long.parseLong(props.getProperty("rate.window_ms", "10000"));
     }
+
+    public static int getThreadPoolSize() {
+        return Integer.parseInt(props.getProperty("server.thread_pool_size", "50"));
+    }
 }
