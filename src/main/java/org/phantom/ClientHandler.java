@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class ClientHandler implements Runnable {
 
@@ -18,11 +19,29 @@ public class ClientHandler implements Runnable {
     }
 
     @Override public void run() {
+        String clientIP = null;
         try {
-            String clientIP = socket.getInetAddress().toString();
+            // Slowloris prevention
+            socket.setSoTimeout(Config.getSocketTimeoutMs());
+
+            clientIP = socket.getInetAddress().toString();
             System.out.println("[+] New connection from "
                     + clientIP
             );
+
+            // check connection limit
+            if (!ConnectionLimiter.acquire(clientIP)) {
+                System.out.println("[!] Connection limit exceeded for: "
+                        + clientIP
+                );
+                PrintWriter writer = new PrintWriter(
+                        socket.getOutputStream(), true
+                );
+                writer.print(HttpResponse.tooManyRequests().toRawHttp());
+                writer.flush();
+
+                return;
+            }
 
             if (!RateLimiter.allow(clientIP)) {
                 System.out.println("[!] Rate limit exceeded for: "
@@ -79,17 +98,27 @@ public class ClientHandler implements Runnable {
             writer.print(httpResponse.toRawHttp());
             writer.flush();
         }
+        catch (SocketTimeoutException e) {
+            // Slowloris attempt
+            System.out.println("[!] Connection timeout: "
+                    + socket.getInetAddress());
+        }
         catch (IOException e) {
             System.out.println("[-] Error handling client: "
                     + e.getMessage()
             );
         }
         finally {
+            // always release the connection slot
+            if (clientIP != null)
+                ConnectionLimiter.release(clientIP);
+
             try {
                 socket.close();
             }
             catch (IOException e) {
-                System.err.println(e.getMessage());
+                System.err.println("[-] Error while closing socket: "
+                        + e.getMessage());
             }
         }
     }

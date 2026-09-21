@@ -62,4 +62,20 @@ public class Config {
     public static long getWindowMs() {
         return Long.parseLong(props.getProperty("rate.window_ms", "10000"));
     }
+
+    public static int getThreadPoolSize() {
+        return Integer.parseInt(props.getProperty("server.thread_pool_size", "50"));
+    }
+
+    public static int getSocketTimeoutMs() {
+        return Integer.parseInt(
+                props.getProperty("server.socket_timeout_ms", "5000")
+        );
+    }
+
+    public static int getMaxConnectionsPerIp() {
+        return Integer.parseInt(
+                props.getProperty("server.max_connections_per_ip", "3")
+        );
+    }
 }
