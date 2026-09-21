@@ -1,4 +1,4 @@
-package org.phantom;
+package org.phantom.infra;
 
 import org.phantom.http.JsonBuilder;
 

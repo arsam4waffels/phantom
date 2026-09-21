@@ -1,4 +1,4 @@
-package org.phantom;
+package org.phantom.deception;
 
 import org.phantom.http.HttpResponse;
 

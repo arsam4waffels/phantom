@@ -1,10 +1,10 @@
 package org.phantom.core;
 
-import org.phantom.Config;
-import org.phantom.FakeService;
+import org.phantom.infra.Config;
+import org.phantom.deception.FakeService;
 import org.phantom.http.HttpRequest;
 import org.phantom.http.HttpResponse;
-import org.phantom.Logger;
+import org.phantom.infra.Logger;
 import org.phantom.security.ThreatTracker;
 import org.phantom.session.SessionManager;
 

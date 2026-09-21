@@ -1,6 +1,6 @@
 package org.phantom.core;
 
-import org.phantom.Config;
+import org.phantom.infra.Config;
 import org.phantom.security.ConnectionLimiter;
 import org.phantom.http.HttpRequest;
 import org.phantom.http.HttpResponse;

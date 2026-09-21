@@ -1,6 +1,6 @@
 package org.phantom.security;
 
-import org.phantom.Config;
+import org.phantom.infra.Config;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
