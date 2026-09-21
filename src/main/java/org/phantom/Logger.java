@@ -1,5 +1,7 @@
 package org.phantom;
 
+import org.phantom.http.JsonBuilder;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

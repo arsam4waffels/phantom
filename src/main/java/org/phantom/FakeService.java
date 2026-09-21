@@ -1,5 +1,7 @@
 package org.phantom;
 
+import org.phantom.http.HttpResponse;
+
 public class FakeService {
     public static HttpResponse respond(String path) {
         return switch (path) {
