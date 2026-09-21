@@ -1,4 +1,6 @@
-package org.phantom;
+package org.phantom.security;
+
+import org.phantom.Config;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

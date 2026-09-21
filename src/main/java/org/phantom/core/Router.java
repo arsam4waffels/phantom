@@ -5,7 +5,7 @@ import org.phantom.FakeService;
 import org.phantom.http.HttpRequest;
 import org.phantom.http.HttpResponse;
 import org.phantom.Logger;
-import org.phantom.ThreatTracker;
+import org.phantom.security.ThreatTracker;
 import org.phantom.session.SessionManager;
 
 import java.util.List;

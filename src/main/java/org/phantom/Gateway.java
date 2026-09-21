@@ -1,6 +1,7 @@
 package org.phantom;
 
 import org.phantom.core.ClientHandler;
+import org.phantom.security.ThreatTracker;
 
 import java.io.IOException;
 import java.net.ServerSocket;
