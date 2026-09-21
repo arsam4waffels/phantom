@@ -1,6 +1,8 @@
 package org.phantom;
 
 import org.junit.jupiter.api.Test;
+import org.phantom.core.Router;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RouterTest {

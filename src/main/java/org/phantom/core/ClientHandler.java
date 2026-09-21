@@ -1,5 +1,10 @@
-package org.phantom;
+package org.phantom.core;
 
+import org.phantom.Config;
+import org.phantom.ConnectionLimiter;
+import org.phantom.HttpRequest;
+import org.phantom.HttpResponse;
+import org.phantom.RateLimiter;
 import org.phantom.session.SessionManager;
 
 import java.io.BufferedReader;

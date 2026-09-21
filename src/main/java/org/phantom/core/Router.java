@@ -1,5 +1,11 @@
-package org.phantom;
+package org.phantom.core;
 
+import org.phantom.Config;
+import org.phantom.FakeService;
+import org.phantom.HttpRequest;
+import org.phantom.HttpResponse;
+import org.phantom.Logger;
+import org.phantom.ThreatTracker;
 import org.phantom.session.SessionManager;
 
 import java.util.List;

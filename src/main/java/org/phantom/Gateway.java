@@ -1,5 +1,7 @@
 package org.phantom;
 
+import org.phantom.core.ClientHandler;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
