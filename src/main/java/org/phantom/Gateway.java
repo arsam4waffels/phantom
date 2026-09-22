@@ -14,17 +14,7 @@ import java.util.concurrent.Executors;
 
 public class Gateway {
 
-
-
     public static void main(String[] args) {
-
-        // test database connection
-        try {
-            DatabaseManager.getConnection();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
         // force load with started
         Config.getPort();
@@ -36,9 +26,12 @@ public class Gateway {
         try (
                 ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
                 ServerSocket serverSocket = new ServerSocket(PORT)
+
         ) {
             System.out.println("[*] Gateway started on port " + PORT);
             System.out.println("[*] Thread pool size: " + THREAD_POOL_SIZE);
+
+            DatabaseManager.getConnection();
 
             while (true) {
 
@@ -47,10 +40,18 @@ public class Gateway {
                 threadPool.submit(new ClientHandler(socket));
 
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("[-] Gateway error: "
                     + e.getMessage()
             );
+        } catch (SQLException e) {
+            System.err.println("[-] Database error: "
+                    + e.getMessage()
+            );
+        }
+        finally {
+            DatabaseManager.close();
         }
     }
 }
