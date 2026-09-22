@@ -1,24 +1,36 @@
 # Roadmap
 
-## Planned features
+## Completed
 
 ### Threat Model
-- [ ] Session and connection tracking
-- [ ] Attack event model
-- [ ] Detection rules engine
-- [ ] Rate limiting
+- [x] Session and connection tracking
+- [x] Rate limiting
 
 ### Infrastructure
-- [ ] Structured logging (JSON format)
-- [ ] Persistence layer (database instead of flat files)
-- [ ] Test isolation improvements
+- [x] Structured logging (JSON format)
+- [x] Test isolation improvements
+
+### Security
+- [x] Prevent the honeypot itself from becoming an attack surface
 
 ### Deception
-- [ ] Extensible fake endpoints and services
+- [x] Extensible fake endpoints and services
+
+---
+
+## Planned
+
+### Threat Model
+- [ ] Attack event model
+- [ ] Detection rules engine
+
+### Infrastructure
+- [ ] Persistence layer (database instead of flat files)
+
+### Deception
 - [ ] Dynamic fake responses based on attacker behavior
 
 ### Security
-- [ ] Prevent the honeypot itself from becoming an attack surface
 - [ ] Isolation between fake and real services
 
 ### Observability
