@@ -1,5 +1,7 @@
 package org.phantom.session;
 
+import org.phantom.infra.SessionRepository;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +22,19 @@ public class SessionManager {
 
     public static void record(String clientIP,
                               String path) {
-        getOrCreate(clientIP).record(path);
+
+        Session session = getOrCreate(clientIP);
+        session.record(path);
+
+        // save to database
+        SessionRepository.save(
+                clientIP,
+                session.getRequestCount(),
+                String.join(
+                        ",",
+                        session.getVisitedPaths()
+                )
+        );
     }
 
     // It only returns the session for a single IP
