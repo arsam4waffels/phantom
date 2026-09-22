@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Logger {
+
     private static final String LOG_FILE_PATH = Config.getLogFile();
+
     public static void logFile(String clientIP,
                                String path,
                                String userAgent,
@@ -39,6 +41,7 @@ public class Logger {
                 .add("session_requests", String.valueOf(sessionCount))
                 .build();
 
+        // write to file
         try (
                 FileWriter fileWriter = new FileWriter(LOG_FILE_PATH, true);
                 BufferedWriter writer = new BufferedWriter(fileWriter)
@@ -47,7 +50,11 @@ public class Logger {
             writer.newLine();
         }
         catch (IOException e) {
-            System.err.println("[-] Logger error: " + e.getMessage());
+            System.err.println("[-] Logger error: "
+                    + e.getMessage());
         }
+
+        // write to database
+        LogRepository.save(clientIP, path, userAgent, level);
     }
 }

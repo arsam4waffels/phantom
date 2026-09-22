@@ -2,17 +2,18 @@ package org.phantom;
 
 import org.phantom.core.ClientHandler;
 import org.phantom.infra.Config;
+import org.phantom.infra.DatabaseManager;
+import org.phantom.infra.LogRepository;
 import org.phantom.security.ThreatTracker;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Gateway {
-
-
 
     public static void main(String[] args) {
 
@@ -26,9 +27,12 @@ public class Gateway {
         try (
                 ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
                 ServerSocket serverSocket = new ServerSocket(PORT)
+
         ) {
             System.out.println("[*] Gateway started on port " + PORT);
             System.out.println("[*] Thread pool size: " + THREAD_POOL_SIZE);
+
+            DatabaseManager.getConnection();
 
             while (true) {
 
@@ -37,10 +41,18 @@ public class Gateway {
                 threadPool.submit(new ClientHandler(socket));
 
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("[-] Gateway error: "
                     + e.getMessage()
             );
+        } catch (SQLException e) {
+            System.err.println("[-] Database error: "
+                    + e.getMessage()
+            );
+        }
+        finally {
+            DatabaseManager.close();
         }
     }
 }

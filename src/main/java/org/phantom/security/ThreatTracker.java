@@ -1,13 +1,13 @@
 package org.phantom.security;
 
 import org.phantom.infra.Config;
+import org.phantom.infra.DatabaseManager;
+import org.phantom.infra.ThreatRepository;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +25,12 @@ public class ThreatTracker {
     private static final int DANGER_THRESHOLD = Config.getDangerThreshold();
 
     static {
+        try {
+            DatabaseManager.getConnection(); // ensure connected
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         loadDangerousIPs();
     }
 
@@ -33,10 +39,14 @@ public class ThreatTracker {
         if (dangerousIPs.contains(clientIP)) return;
 
         suspiciousCount.merge(clientIP, 1, Integer::sum);
+        int count = suspiciousCount.get(clientIP);
 
-        if (suspiciousCount.get(clientIP) >= DANGER_THRESHOLD) {
+        if (count >= DANGER_THRESHOLD) {
             dangerousIPs.add(clientIP);
-            saveDangerousIP(clientIP);
+            ThreatRepository.save(clientIP, count, true);
+        }
+        else {
+            ThreatRepository.save(clientIP, count, false);
         }
     }
 
@@ -61,29 +71,15 @@ public class ThreatTracker {
     }
 
     private static void loadDangerousIPs() {
-        File file = new File(DANGER_FILE);
-        System.out.println("[*] Looking for danger file at: "
-                + file.getAbsolutePath());
-        if (!file.exists()) return;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        Set<String> ips = ThreatRepository.loadDangerousIPs();
+        dangerousIPs.addAll(ips);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-
-                if (!line.isBlank()) {
-                    String ip = line.trim();
-                    dangerousIPs.add(ip);
-                    suspiciousCount.put(ip, DANGER_THRESHOLD);
-                }
-            }
-            System.out.println("[*] Loaded "
-                    + dangerousIPs.size()
-                    + " dangerous IPs from file.");
-        }
-        catch (IOException e) {
-            System.out.println("[-] Could not load dangerous IPs: "
-                    + e.getMessage());
-        }
+        ips.forEach(ip -> suspiciousCount.put(
+                ip, DANGER_THRESHOLD)
+        );
+        System.out.println("[*] Loaded "
+                + dangerousIPs.size()
+                + " dangerous IPs from database.");
     }
 }
