@@ -78,4 +78,24 @@ public class Config {
                 props.getProperty("server.max_connections_per_ip", "3")
         );
     }
+
+    public static String getDbHost() {
+        return props.getProperty("db.host", "localhost");
+    }
+
+    public static String getDbPort() {
+        return props.getProperty("db.port", "3306");
+    }
+
+    public static String getDbName() {
+        return props.getProperty("db.name", "phantom");
+    }
+
+    public static String getDbUsername() {
+        return props.getProperty("db.username", "root");
+    }
+
+    public static String getDbPassword() {
+        return props.getProperty("db.password", "");
+    }
 }

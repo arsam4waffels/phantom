@@ -2,11 +2,13 @@ package org.phantom;
 
 import org.phantom.core.ClientHandler;
 import org.phantom.infra.Config;
+import org.phantom.infra.DatabaseManager;
 import org.phantom.security.ThreatTracker;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,6 +17,14 @@ public class Gateway {
 
 
     public static void main(String[] args) {
+
+        // test database connection
+        try {
+            DatabaseManager.getConnection();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // force load with started
         Config.getPort();
