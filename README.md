@@ -4,6 +4,7 @@
 Phantom lures attackers into a fake environment, logs their every move,
 and tracks dangerous IPs — all while the real service stays hidden.
 
+![Phantom Dashboard](docs/dashboard.png)
 ---
 
 # Project Structure
@@ -49,6 +50,33 @@ When a client connects to Phantom:
 - **Repeated attackers** → flagged as DANGER and permanently tracked
 
 The attacker never knows they're being watched.
+
+---
+
+## Features
+
+- **Honeypot** — lures attackers into fake services with convincing responses
+- **Threat Tracking** — flags dangerous IPs and persists them across restarts
+- **Session Tracking** — records full request history per IP
+- **Attack Event Model** — detects and classifies attack patterns with severity
+- **Rate Limiting** — blocks request flooding with token bucket algorithm
+- **Connection Limiting** — prevents Slowloris and flood attacks
+- **Structured Logging** — JSON logs to console and file
+- **MySQL Persistence** — stores threats, sessions, logs, and attack events
+- **Real-time Dashboard** — web UI for monitoring active threats and events
+
+---
+
+## Dashboard
+
+Phantom comes with a built-in real-time dashboard.
+
+The dashboard shows:
+- **Dangerous IPs** — total IPs flagged as dangerous
+- **Attack Events** — total detected attack patterns
+- **Total Logs** — all suspicious requests logged
+- **Attack Events table** — severity, type, IP, request count, and paths
+- **Threats table** — all tracked IPs with first and last seen timestamps
 
 ---
 
@@ -110,15 +138,5 @@ Example log output:
 
 ---
 
-## Concepts
-
-This project is inspired by real-world cyber deception techniques:
-
-- **Honeypot** — a fake service that attracts attackers
-- **Honeytoken** — fake credentials and data that trigger alerts when accessed
-- **Deception Fabric** — multiple fake services that mirror the real system
-- **Observe, don't block** — let attackers think they're winning while we learn from them
-
----
 
 I built this project solely for educational purposes related to security and networking. It certainly lacks the security required to protect sensitive data. I’d be happy if you used Phantom for your systems, but whatever happens is on you, buddy—not me. (lol).
