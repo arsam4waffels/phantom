@@ -20,6 +20,11 @@ public class Router {
     public HttpResponse route(HttpRequest httpRequest) {
         String path = httpRequest.getPath();
 
+        // dashboard
+        if (path.equals("/dashboard")) {
+            return HttpResponse.html(DashboardService.buildPage());
+        }
+
         if (REAL_PATHS.contains(path))
             return handleReal(path);
         else

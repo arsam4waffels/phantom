@@ -38,8 +38,8 @@ public class HttpResponse {
     }
 
     public String toRawHttp() {
-        return "HTTP/1.1 " + statusCode + " \r\n"
-                + "Content-Type: text/plain\r\n"
+        return "HTTP/1.1 " + statusCode + " " + getReasonPhrase() + "\r\n"
+                + "Content-Type: " + contentType + "\r\n"
                 + "\r\n"
                 + body;
     }
