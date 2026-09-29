@@ -1,11 +1,13 @@
 package org.phantom.core;
 
+import org.jetbrains.annotations.NotNull;
 import org.phantom.infra.Config;
 import org.phantom.deception.FakeService;
 import org.phantom.http.HttpRequest;
 import org.phantom.http.HttpResponse;
 import org.phantom.infra.Logger;
 import org.phantom.security.ThreatTracker;
+import org.phantom.security.attackEven.EventEngine;
 import org.phantom.session.SessionManager;
 
 import java.util.List;
@@ -33,15 +35,23 @@ public class Router {
             default           -> HttpResponse.notFound();
         };
     }
-    private HttpResponse handleFake(HttpRequest httpRequest) {
+    private @NotNull HttpResponse handleFake(@NotNull HttpRequest httpRequest) {
 
         String clientIP = httpRequest.getClientIP();
+        String path     = httpRequest.getPath();
+
+        // threat tracking
         ThreatTracker.record(clientIP);
 
+        // session tracking
         int sessionCount = SessionManager.get(clientIP) != null
                 ? SessionManager.get(clientIP).getRequestCount()
                 : 1;
 
+        // attack event processing
+        EventEngine.process(clientIP, path);
+
+        // logging
         if (ThreatTracker.isDangerous(clientIP))
             Logger.logFile(clientIP,
                     httpRequest.getPath(),
