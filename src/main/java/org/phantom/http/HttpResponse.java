@@ -1,5 +1,8 @@
 package org.phantom.http;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 public class HttpResponse {
     private final int statusCode;
     private final String contentType;
@@ -61,5 +64,14 @@ public class HttpResponse {
             case 429 -> "Too Many Requests";
             default  -> "Unknown";
         };
+    }
+
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull HttpResponse html(String body) {
+        return new HttpResponse(
+                200,
+                "text/html; charset=UTF-8",
+                body
+        );
     }
 }
